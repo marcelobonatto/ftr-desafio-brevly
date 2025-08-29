@@ -1,29 +1,31 @@
-import { createLink } from "@/app/functions/create-link";
-import { getLinks } from "@/app/functions/get-links";
-import { isRight, unwrapEither } from "@/shared/either";
-import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
-import z from "zod";
+import { createLink } from "@/app/functions/create-link"
+import { getLinks } from "@/app/functions/get-links"
+import { isRight, unwrapEither } from "@/shared/either"
+import { FastifyPluginAsyncZod } from "fastify-type-provider-zod"
+import z from "zod"
 
+// Constante da rota de criação de link
 export const createLinkRoute: FastifyPluginAsyncZod = async app => {
+    // Este endereço receberá apenas a URL original e a URL encurtada pelo corpo da API
     app.post('/links', {
         schema: {
             summary: 'Create a new link',
             tags: ['links'],
             body: z.object({
-                original: z.url(),
-                short: z.string().min(3).max(40)
+                original: z.url().describe('Original URL'),
+                short: z.string().min(3).max(40).describe('Short URL')
             }),
             response: {
                 201: z.object({
-                    id: z.uuidv7()
+                    id: z.uuidv7().describe('Id of the created link')
                 }),
 
                 400: z.object({
-                    message: z.string()
+                    message: z.string().describe('Error message')
                 }),
 
                 409: z.object({
-                    message: z.string()
+                    message: z.string().describe('Error message')
                 })
             }
         }
@@ -48,5 +50,5 @@ export const createLinkRoute: FastifyPluginAsyncZod = async app => {
         const { id } = unwrapEither(result)
 
         return reply.status(201).send({ id })
-    });
+    })
 }

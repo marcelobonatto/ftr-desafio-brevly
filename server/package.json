@@ -1,8 +1,27 @@
 {
+	"name": "brevly-server",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "Marcelo Bonatto",
+	"type": "module",
+	"scripts": {
+		"dev": "tsx watch --env-file .env src/infra/http/server.ts",
+		"test": "dotenv -e .env.test -- vitest run",
+		"test:watch": "dotenv -e .env.test -- vitest",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio",
+		"db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
+		"pretest": "pnpm run db:migrate:test",
+		"pretest:watch": "pnpm run db:migrate:test",
+		"build": "tsup-node"
+	},
 	"devDependencies": {
 		"@types/node": "^24.3.0",
 		"@types/pg": "^8.15.5",
 		"drizzle-kit": "^0.31.4",
+		"tsup": "^8.5.0",
 		"tsx": "^4.20.5",
 		"typescript": "^5.9.2"
 	},
@@ -10,11 +29,14 @@
 		"@fastify/cors": "^11.1.0",
 		"dotenv": "^17.2.1",
 		"drizzle-orm": "^0.44.4",
+		"drizzle-zod": "^0.8.3",
 		"fastify": "^5.5.0",
 		"fastify-type-provider-zod": "^5.0.3",
 		"i": "^0.3.7",
 		"pg": "^8.16.3",
 		"pnpm": "^10.15.0",
+		"postgres": "^3.4.7",
+		"uuidv7": "^1.0.2",
 		"zod": "^4.1.1"
 	}
 }

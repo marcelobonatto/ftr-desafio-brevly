@@ -25,7 +25,7 @@ type GetLinksOutput = {
 }
 
 export async function getLinks(input: GetLinksInput): Promise<Either<never, GetLinksOutput>> {
-    const { page, pageSize } = getLinksInput.parse(input);
+    const { short, page, pageSize } = getLinksInput.parse(input);
 
     // Seleciona todos os registro da tabela links por ordem de data criada
     // limitada pela paginação
@@ -37,7 +37,7 @@ export async function getLinks(input: GetLinksInput): Promise<Either<never, GetL
             accesses: schema.links.accesses,
             createdAt: schema.links.createdAt
         }).from(schema.links)
-          .where(input.short ? eq(schema.links.short, input.short) : undefined)
+          .where(short ? eq(schema.links.short, short) : undefined)
           .orderBy(asc(schema.links.createdAt))
           .limit(pageSize)
           .offset((page - 1) * pageSize)

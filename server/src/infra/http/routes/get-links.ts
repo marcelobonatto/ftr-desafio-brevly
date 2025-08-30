@@ -4,7 +4,7 @@ import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { z } from "zod";
 
 // Constante da rota de listagem de links
-export const getLinksRoute: FastifyPluginAsyncZod = async (app) => {
+export const getLinksRoute: FastifyPluginAsyncZod = async app => {
     // O endereço da rota será links e pode ter a divisão por páginas.
     // Exemplos:
     // - /links => lista a primeira página retornando 4 registros

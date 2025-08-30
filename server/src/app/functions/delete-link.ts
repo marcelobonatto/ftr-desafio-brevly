@@ -9,9 +9,9 @@ const deleteLinkInput = z.object({
     id: z.uuidv7()
 })
 
-type deleteLinkInput = z.input<typeof deleteLinkInput>
+type DeleteLinkInput = z.infer<typeof deleteLinkInput>
 
-export async function deleteLink(input: deleteLinkInput): Promise<Either<never, { id: string }>> {
+export async function deleteLink(input: DeleteLinkInput): Promise<Either<never, { id: string }>> {
     const { id } = deleteLinkInput.parse(input)
 
     // Exclui o link pelo id indicado e retorna o id excluído

@@ -7,6 +7,8 @@ import { env } from '@/env'
 import { getLinksRoute } from './routes/get-links'
 import { createLinkRoute } from './routes/create-link'
 import { deleteLinkRoute } from './routes/delete-link'
+import { getLinksByShortRoute } from './routes/get-link-by-short'
+import { patchLinkRoute } from './routes/patch-link'
 
 // Cria a instância do Fastify
 const app = fastify()
@@ -68,8 +70,10 @@ app.register(scalarUI, {
 
 // Registrando as rotas
 app.register(getLinksRoute)
+app.register(getLinksByShortRoute)
 app.register(createLinkRoute)
 app.register(deleteLinkRoute)
+app.register(patchLinkRoute)
 
 // Executa o servidor
 app.listen({ port: env.PORT, host: '0.0.0.0' })

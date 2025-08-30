@@ -1,5 +1,5 @@
 import { deleteLink } from "@/app/functions/delete-link";
-import { isRight } from "@/shared/either";
+import { isRight, unwrapEither } from "@/shared/either";
 import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 
@@ -8,10 +8,10 @@ export const deleteLinkRoute: FastifyPluginAsyncZod = async app => {
     // Este endereço receberá o ID pelo parâmetro da rota
     app.delete('/links/:id', {
         schema: {
-            summary: 'Delete a link by ID',
+            summary: 'Delete a link by id',
             tags: ['links'],
             params: z.object({
-                id: z.uuid().describe('ID of the link to delete')
+                id: z.uuid().describe('Id of the link to delete')
             }),
             response: {
                 204: z.object({
@@ -29,8 +29,10 @@ export const deleteLinkRoute: FastifyPluginAsyncZod = async app => {
         // Exclui o registro
         const result = await deleteLink({ id })
 
+        const { deletedId } = unwrapEither(result);
+
         // Se retornar vazio no id, retorna 404 indicando que o link não foi encontrado pelo id
-        if (isRight(result) && result.right.id === '') {
+        if (deletedId === '') {
             return reply.status(404).send({ message: 'Link not found' });
         }
 

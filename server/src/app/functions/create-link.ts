@@ -9,9 +9,9 @@ const createLinkInput = z.object({
     short: z.string().min(3).max(40)
 })
 
-type createLinkInput = z.input<typeof createLinkInput>
+type CreateLinkInput = z.infer<typeof createLinkInput>
 
-export async function createLink(input: createLinkInput): Promise<Either<never, { id: string }>> {
+export async function createLink(input: CreateLinkInput): Promise<Either<never, { id: string }>> {
     const { original, short } = createLinkInput.parse(input);
 
     // Inclui o link com as informaçõese da URL original e URL encurtada

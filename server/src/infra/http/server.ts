@@ -9,6 +9,7 @@ import { createLinkRoute } from './routes/create-link'
 import { deleteLinkRoute } from './routes/delete-link'
 import { getLinksByShortRoute } from './routes/get-link-by-short'
 import { patchLinkRoute } from './routes/patch-link'
+import { exportToCsvRoute } from './routes/export-to-csv'
 
 // Cria a instância do Fastify
 const app = fastify()
@@ -71,6 +72,7 @@ app.register(scalarUI, {
 // Registrando as rotas
 app.register(getLinksRoute)
 app.register(getLinksByShortRoute)
+app.register(exportToCsvRoute)
 app.register(createLinkRoute)
 app.register(deleteLinkRoute)
 app.register(patchLinkRoute)

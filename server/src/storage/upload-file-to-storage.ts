@@ -19,7 +19,7 @@ export async function uploadFileToStorage(input: UploadFiletoStorageInput)
     const { fileName, contentType, contentStream } = uploadFileToStorageInput.parse(input);
 
     const fileExtension = extname(fileName);
-    const fileNameWithoutExtension = basename(fileName);
+    const fileNameWithoutExtension = basename(fileName, fileExtension);
     const sanitizedFileName = fileNameWithoutExtension.replace(/[^a-zA-Z0-9]/g, '');
     const sanitizedFileNameWithExtension = sanitizedFileName.concat(fileExtension);
 

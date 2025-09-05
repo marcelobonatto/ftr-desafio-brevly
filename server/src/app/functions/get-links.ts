@@ -39,8 +39,8 @@ export async function getLinks(input: GetLinksInput): Promise<Either<never, GetL
         }).from(schema.links)
           .where(short ? eq(schema.links.short, short) : undefined)
           .orderBy(asc(schema.links.createdAt))
-          .limit(pageSize)
-          .offset((page - 1) * pageSize)
+        //   .limit(pageSize)
+        //   .offset((page - 1) * pageSize)
     ])
 
     return makeRight({ links })

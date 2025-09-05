@@ -1,7 +1,7 @@
 import { DownloadSimpleIcon } from "@phosphor-icons/react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { MyLinksEmpty } from "./my-links-empty";
+import { MyLinksList } from "./my-links-list";
 
 export function MyLinksCard() {
     return (
@@ -16,7 +16,7 @@ export function MyLinksCard() {
                 <hr />
             </CardHeader>
             <CardContent>
-                <MyLinksEmpty />
+                <MyLinksList />
             </CardContent>
         </Card>
     )

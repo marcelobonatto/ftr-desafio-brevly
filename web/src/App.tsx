@@ -1,11 +1,8 @@
-import { BrevlyForm } from "./components/brevly-form"
+import { RouterProvider } from "react-router"
+import { router } from "@/routes"
 
 export function App() {
   return (
-    <main className="flex justify-center items-center min-h-dvh w-full bg-gray-200 p-4">
-      <BrevlyForm />
-    </main>
+    <RouterProvider router={router} />
   )
 }
-
-export default App

@@ -125,3 +125,39 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .my-text-xl {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+  }
+
+  .my-text-lg {
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: 700;
+  }
+
+  .my-text-md {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+  }
+
+  .my-text-sm,
+  .my-text-sm-semi {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .my-text-sm-semi {
+    font-weight: 600;
+  }
+
+  .my-text-xs {
+    font-size: 10px;
+    line-height: 14px;
+    text-transform: uppercase;
+  }
+}

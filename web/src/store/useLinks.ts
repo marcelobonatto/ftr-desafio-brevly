@@ -291,6 +291,34 @@ export const useLinkStore = create<LinksState>()(
                             state.loading = false
                         })
                      })
+        },
+
+        addLink: async (original: string, short: string) => {
+            set((state) => {
+                state.loading = true
+                state.error = null
+            })
+
+            await api.createLink({ original, short })
+                     .then((data) => {
+                        const newLink: Link = {
+                            id: data.id,
+                            original,
+                            short,
+                            accesses: 0,
+                            createdAt: new Date().toISOString()
+                        }
+
+                        set((state) => {
+                            state.links.push(newLink)
+                            state.loading = false
+                        })
+                     }).catch ((error) => {
+                        set((state) => {
+                            state.error = error.message
+                            state.loading = false
+                        })
+                     })
         }
     }))
 )

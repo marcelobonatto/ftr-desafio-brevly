@@ -4,5 +4,4 @@ export type Link = {
     short: string
     accesses: number
     createdAt: string
-    status: 'active' | 'inactive'
 }

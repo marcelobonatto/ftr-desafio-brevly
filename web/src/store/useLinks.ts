@@ -265,6 +265,7 @@ type LinksState = {
     loading: boolean
     error: string | null
     fetchLinks: () => Promise<void>
+    addLink: (original: string, short: string) => Promise<void>
 }
 
 export const useLinkStore = create<LinksState>()(

@@ -6,7 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { MyLinksListItem } from "@/components/my-links-list-item"
 
 export function MyLinksList() {
-    const { links, loading, error, fetchLinks } = useLinkStore()
+    const { links, loading, fetchLinks } = useLinkStore()
 
     useEffect(() => {
         fetchLinks()
@@ -16,7 +16,7 @@ export function MyLinksList() {
     if (links.length == 0) return <MyLinksEmpty />
 
     return (
-        <ScrollArea className="w-full h-full">
+        <ScrollArea className="w-full h-full max-h-[280px]">
             <ul className="mt-0">
             {links.map((link) => (
                 <MyLinksListItem link={link} key={link.id} />

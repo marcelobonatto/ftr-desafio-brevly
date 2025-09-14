@@ -265,7 +265,8 @@ type LinksState = {
     loading: boolean
     error: string | null
     fetchLinks: () => Promise<void>
-    addLink: (original: string, short: string) => Promise<void>
+    addLink: (original: string, short: string) => Promise<void>,
+    deleteLink: (id: string) => Promise<void>
 }
 
 export const useLinkStore = create<LinksState>()(
@@ -319,6 +320,66 @@ export const useLinkStore = create<LinksState>()(
                             state.error = error.message
                             state.loading = false
                         })
+                     })
+        },
+
+        deleteLink: async (id: string) => {
+            set((state) => {
+                state.loading = true;
+                state.error = null;
+            });
+
+            await api.deleteLink(id)
+                     .then(() => {
+                        set((state) => {
+                            state.links = state.links.filter((l) => l.id !== id);
+                            state.loading = false;
+                        });
+                     }).catch((error) => {
+                        set((state) => {
+                            state.error = error.message;
+                            state.loading = false;
+                        });
+                     });
+        },
+
+        selectByShort: async (short: string) => {
+            set((state) => {
+                state.loading = true;
+                state.error = null;
+            });
+
+            await api.getLinkByShort(short)
+                     .then((data) => {
+                        set((state) => {
+                            state.links = data.links
+                            state.loading = false
+                        })
+                     }).catch((error) => {
+                        set((state) => {
+                            state.error = error.message;
+                            state.loading = false;
+                        });
+                     })
+        },
+
+        updateAccesses: async (id: string) => {
+            set((state) => {
+                state.loading = true;
+                state.error = null;
+            });
+
+            await api.updateLink(id)
+                     .then(() => {
+                        set((state) => {
+                            state.links = state.links.filter((l) => l.id !== id);
+                            state.loading = false
+                        })
+                     }).catch((error) => {
+                        set((state) => {
+                            state.error = error.message;
+                            state.loading = false;
+                        });
                      })
         }
     }))

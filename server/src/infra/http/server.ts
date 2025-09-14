@@ -20,12 +20,12 @@ app.setSerializerCompiler(serializerCompiler)
 
 // Define um handler genérico de erro para erros inesperados
 app.setErrorHandler((error, request, reply) => {
-    if (hasZodFastifySchemaValidationErrors(error)) {
-        return reply.status(400).send({
-            message: 'Validation error',
-            issues: error.validation
-        })
-    }
+    // if (hasZodFastifySchemaValidationErrors(error)) {
+    //     return reply.status(400).send({
+    //         message: 'Validation error',
+    //         issues: error.validation
+    //     })
+    // }
 
     // Esta linha imprime o erro para observalidade
     console.log(error);
@@ -36,7 +36,7 @@ app.setErrorHandler((error, request, reply) => {
 })
 
 // Configura as origens permitidas pelo CORS
-app.register(fastifyCors, { origin: '*' })
+app.register(fastifyCors, { origin: '*', methods: "GET,HEAD,PUT,PATCH,POST,DELETE" })
 
 // Registrando o objeto para criar a documentação via OpenAPI
 app.register(fastifySwagger, {

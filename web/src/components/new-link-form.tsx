@@ -1,14 +1,13 @@
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "./ui/input"
 import { useLinkStore } from "@/store/useLinks"
-import { CheckCircleIcon, WarningIcon } from "@phosphor-icons/react"
-import { Alert } from "./ui/alert"
+import { WarningIcon } from "@phosphor-icons/react"
+import { toast } from "sonner"
 
 const formSchema = z.object({
     original: z.url({ message: 'Não é um endereço válido' }),
@@ -41,56 +40,29 @@ export function NewLinkForm() {
         mode: 'onChange'
     })
 
-    const { 
-        handleSubmit,
-        control,
-        formState: { isValid },
-        reset
-    } = form
+    const { handleSubmit, control, formState: { isValid }, reset} = form
 
     const { addLink, loading, error } = useLinkStore()
-    const [messageType, setMessageType] = useState<'ok' | 'error' | null>(null)
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        try {
-            await addLink(data.original, data.short)
-            
-            if (error) {
-                setMessageType("error")
-            } else {
-                setMessageType("ok")
-                reset()            // Limpa os campos após sucesso
-            }
-        } catch {
-            setMessageType("error")
+    async function onSubmit(data: z.infer<typeof formSchema>) {
+        addLink(data.original, data.short)
+
+        if (error)
+            toast.error('Ocorreu um erro ao adicionar o link: ' + (error || 'Erro desconhecido'))
+        else {
+            toast.success('Link adicionado com sucesso!')
+            reset()
         }
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex-1 mb-4 md:mb-0">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full flex-1 mb-4 md:mb-0">
                 <Card className="w-full">
                     <CardHeader>
                         <h1 className="my-text-xl">Novo Link</h1>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
-                        {messageType && 
-                            <Alert className="flex items-center gap-2">
-                                { messageType === 'ok' ? 
-                                    (
-                                        <>
-                                            <CheckCircleIcon size={24} className="text-green-600" /> 
-                                            <span className="text-green-600">Link adicionado com sucesso!</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <WarningIcon size={24} className="text-red-600" />
-                                            <span className="text-red-600">Ocorreu um erro ao adicionar o link.</span>
-                                        </>
-                                    )
-                                }
-                            </Alert>
-                        }
                         <FormField control={control} name="original"
                                    render={({field}) => (
                                         <FormItem>

@@ -44,6 +44,12 @@ export const createLinkRoute: FastifyPluginAsyncZod = async app => {
             return reply.status(409).send({ message: 'Short link already exists' })
         }
 
+        if (short.length < 3) {
+            return reply.status(400).send({ message: 'Short link must be at least 3 characters long' })
+        } else if (short.length > 40) {
+            return reply.status(400).send({ message: 'Short link must be at most 40 characters long' })
+        }
+
         // Se tudo está certo, cria o link
         const result = await createLink({ original, short })
 

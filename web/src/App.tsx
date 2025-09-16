@@ -6,7 +6,9 @@ export function App() {
   return (
     <>
       <Toaster richColors />
-      <RouterProvider router={router} />
+      <main className="flex justify-center items-center min-h-dvh w-full bg-gray-200 p-4">
+        <RouterProvider router={router} />
+      </main>
     </>
   )
 }

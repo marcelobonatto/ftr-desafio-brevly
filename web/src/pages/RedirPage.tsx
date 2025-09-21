@@ -21,7 +21,7 @@ export function RedirPage() {
   useEffect(() => {
     if (foundLink) {
       updateAccesses(foundLink.id);
-      window.location.href = foundLink.original;
+      window.location.assign(foundLink.original);
     }
   }, [foundLink, updateAccesses]);
 
@@ -41,7 +41,6 @@ export function RedirPage() {
     );
   }
 
-  // 3. Estado Encontrado (renderiza enquanto o useEffect acima redireciona)
   return (
     <div className="flex flex-col items-center justify-center w-full h-80 max-w-5xl max-h-72 bg-white py-12 px-5 md:py-16 md:px-12">
       <RedirScreen original={foundLink.original} />

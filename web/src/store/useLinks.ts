@@ -103,10 +103,13 @@ export const useLinkStore = create<LinksState>()(
       await api
         .getLinkByShort(short)
         .then((data) => {
-          console.log("data", data);
-
           set((state) => {
-            state.links.push(data.link);
+            const idx = state.links.findIndex((l) => l.id === data.link.id);
+            if (idx !== -1) {
+              state.links[idx] = data.link;
+            } else {
+              state.links.push(data.link);
+            }
             state.loading = false;
           });
         })
@@ -120,22 +123,27 @@ export const useLinkStore = create<LinksState>()(
 
     updateAccesses: async (id: string) => {
       set((state) => {
-        const linkToUpdate = state.links.find((l) => l.id === id);
-        if (linkToUpdate) {
-          linkToUpdate.accesses += 1; // Incrementa o acesso
-        }
+        state.error = null;
+        state.loading = true;
       });
 
-      await api.updateLink(id).catch((error) => {
-        set((state) => {
-          state.error = error.message;
+      await api.updateLink(id)
+        .then((updatedLink) => {
+          set((state) => {
+            const idx = state.links.findIndex((l) => l.id === id);
+            if (idx !== -1) {
+              state.links[idx] = updatedLink;
+            }
 
-          const linkToUpdate = state.links.find((l) => l.id === id);
-          if (linkToUpdate) {
-            linkToUpdate.accesses -= 1;
-          }
+            state.loading = false;
+          });
+        })
+        .catch((error) => {
+          set((state) => {
+            state.error = error.message;
+            state.loading = false;
+          });
         });
-      });
     },
   }))
 );

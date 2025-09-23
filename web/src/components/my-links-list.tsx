@@ -8,9 +8,17 @@ import { MyLinksListItem } from "@/components/my-links-list-item"
 export function MyLinksList() {
     const { links, loading, fetchLinks } = useLinkStore()
 
+
     useEffect(() => {
-        fetchLinks()
-    }, [fetchLinks])
+        fetchLinks();
+        function handleStorage(event: StorageEvent) {
+            if (event.key === "links-updated") {
+                fetchLinks();
+            }
+        }
+        window.addEventListener("storage", handleStorage);
+        return () => window.removeEventListener("storage", handleStorage);
+    }, [fetchLinks]);
 
     if (loading) return <MyLinksLoading />
     if (links.length == 0) return <MyLinksEmpty />

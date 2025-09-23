@@ -49,4 +49,13 @@ export const api = {
     });
     if (!response.ok) throw new Error("Erro ao deletar link");
   },
+
+  async exportLinksToCsv(): Promise<string> {
+    const response = await fetch(`${this.url}/export/csv`, {
+      method: "POST",
+    });
+    if (!response.ok) throw new Error("Erro ao exportar CSV");
+    const data = await response.json();
+    return data.url;
+  },
 };

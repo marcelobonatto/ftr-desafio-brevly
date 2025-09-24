@@ -15,7 +15,8 @@
 		"db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
 		"pretest": "pnpm run db:migrate:test",
 		"pretest:watch": "pnpm run db:migrate:test",
-		"build": "tsup-node"
+		"build": "tsup",
+		"start": "node dist/server.mjs"
 	},
 	"devDependencies": {
 		"@types/node": "^24.3.0",

@@ -14,10 +14,33 @@ services:
       - ./docker:/docker-entrypoint-initdb.d
       - db:/var/lib/postgresql/data
     networks:
+      - server
       - db
+
+  app:
+    build: .
+    container_name: server-brevly
+    ports:
+      - 3000:$PORT
+    environment:
+      - PORT=$PORT
+      - DATABASE_URL=postgresql://usuario:teste@db:5432/brevly
+      - POSTGRES_PORT=$POSTGRES_PORT
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+      - CLOUDFLARE_ACCOUNT_ID=$CLOUDFLARE_ACCOUNT_ID
+      - CLOUDFLARE_ACCESS_KEY_ID=$CLOUDFLARE_ACCESS_KEY_ID
+      - CLOUDFLARE_SECRET_ACCESS_KEY=$CLOUDFLARE_SECRET_ACCESS_KEY
+      - CLOUDFLARE_BUCKET=$CLOUDFLARE_BUCKET
+      - CLOUDFLARE_PUBLIC_URL=$CLOUDFLARE_PUBLIC_URL
+    networks:
+      - server
 
 volumes:
   db:
 networks:
+  server:
+    driver: bridge
   db:
     driver: bridge

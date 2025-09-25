@@ -8,6 +8,7 @@ import { Input } from "./ui/input"
 import { useLinkStore } from "@/store/useLinks"
 import { WarningIcon } from "@phosphor-icons/react"
 import { toast } from "sonner"
+import { PrefixedInput } from "./ui/prefixed-input"
 
 const formSchema = z.object({
     original: z.url({ message: 'Não é um endereço válido' }),
@@ -81,7 +82,7 @@ export function NewLinkForm() {
                                         <FormItem>
                                             <FormLabel>Link Encurtado</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="brev.ly/" {...field} />
+                                                <PrefixedInput prefix="brev.ly/" {...field} />
                                             </FormControl>
                                             <FormMessage>
                                                 <FormMessageWithIcon message={form.formState.errors.short?.message} />
